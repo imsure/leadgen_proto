@@ -6,6 +6,7 @@ class ActivityPattern(models.Model):
     Activity patterns inferred from Metropia users trip data.
     """
     # fields
+    owner = models.ForeignKey('auth.User', related_name='activity_patterns', on_delete=models.CASCADE)
     activity_id = models.PositiveIntegerField(primary_key=True, db_index=True)
     metropia_id = models.IntegerField(help_text='Unique ID for each Metropia user')
     from_lat = models.FloatField(help_text='Start latitude')
