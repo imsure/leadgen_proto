@@ -1,5 +1,7 @@
 from django.db import models
 
+PATTERN_TYPES = (('Commute', 'Commute'), ('Shopping', 'Shopping'), ('School Pickup', 'School Pickup'))
+
 
 class ActivityPattern(models.Model):
     """
@@ -9,6 +11,7 @@ class ActivityPattern(models.Model):
     owner = models.ForeignKey('auth.User', related_name='activity_patterns', on_delete=models.CASCADE)
     activity_id = models.PositiveIntegerField(primary_key=True, db_index=True)
     metropia_id = models.IntegerField(help_text='Unique ID for each Metropia user')
+    pattern_type = models.CharField(choices=PATTERN_TYPES, max_length=100, default='Commute')
     from_lat = models.FloatField(help_text='Start latitude')
     from_lon = models.FloatField(help_text='Start longitude')
     to_lat = models.FloatField(help_text='End latitude')
