@@ -18,9 +18,9 @@ class ActivityPattern(models.Model):
     to_lon = models.FloatField(help_text='End longitude')
     start_time = models.TimeField(help_text='Start time of the activity')
     end_time = models.TimeField(help_text='End time of the activity')
-    add_datetime = models.DateTimeField(auto_now_add=True,
+    add_datetime = models.DateTimeField(blank=True, auto_now_add=True,
                                         help_text='Date & time when this activity pattern was added')
-    mod_datetime = models.DateTimeField(auto_now_add=True,
+    mod_datetime = models.DateTimeField(blank=True, auto_now_add=True,
                                         help_text='Date & time when this activity pattern was last modified')
     travel_plan_update_datetime = models.DateTimeField(
         blank=True, null=True,

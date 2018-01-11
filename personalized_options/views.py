@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
 from .permissions import IsOwnerOrReadOnly
+from datetime import datetime
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -28,3 +29,6 @@ class ActivityPatternViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(mod_datetime=datetime.now(), owner=self.request.user)

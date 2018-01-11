@@ -1,6 +1,7 @@
 from .models import *
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -17,6 +18,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 class ActivityPatternSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    avail_travel_options = serializers.HiddenField(default='')
+    # add_datetime = serializers.HiddenField()
+    # mod_datetime = serializers.HiddenField(default=datetime.now())
+    travel_plan_update_datetime = serializers.HiddenField(default=None)
 
     class Meta:
         model = ActivityPattern
