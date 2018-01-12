@@ -23,8 +23,7 @@ class ActivityPatternSerializer(serializers.HyperlinkedModelSerializer):
     # mod_datetime = serializers.HiddenField(default=datetime.now())
     # travel_plan_update_datetime = serializers.HiddenField(default=None)
 
-    travel_options = serializers.HyperlinkedIdentityField(
-        view_name='activitypattern-travel-options')
+    travel_options = serializers.HyperlinkedIdentityField(view_name='activitypattern-travel-options')
 
     class Meta:
         model = ActivityPattern

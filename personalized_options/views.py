@@ -39,8 +39,21 @@ class ActivityPatternViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['get'])
     def travel_options(self, request, *args, **kwargs):
         activity_pattern = self.get_object()
-        data = {'Available Travel Options': activity_pattern.avail_travel_options,
-                'Last Update Time': activity_pattern.travel_plan_update_datetime}
+        if not activity_pattern.avail_travel_options:
+            options_dict = {}
+        else:
+            options = activity_pattern.avail_travel_options.split(',')
+            base_url = request.build_absolute_uri()
+            urls = [base_url + opt for opt in options]
+            options_dict = {}
+            for opt, url in zip(options, urls):
+                options_dict[opt] = url
+
+        data = {
+            '# of available travel options': len(options_dict),
+            'Available Travel Options': options_dict,
+            'Last Update Time': activity_pattern.travel_plan_update_datetime
+        }
         return Response(data=data)
 
 
