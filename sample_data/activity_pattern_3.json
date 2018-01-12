@@ -1,0 +1,11 @@
+{
+    "activity_id": 3,
+    "metropia_id": 1,
+    "from_lat": 32.27908,
+    "from_lon": -110.94449,
+    "to_lat": 32.27991,
+    "to_lon": -110.97633,
+    "start_time": "18:00:00",
+    "end_time": "18:20:00",
+    "pattern_type":"Shopping"
+}

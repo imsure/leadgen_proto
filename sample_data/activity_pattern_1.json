@@ -1,0 +1,11 @@
+{
+    "activity_id": 1,
+    "metropia_id": 1,
+    "from_lat": 32.27908,
+    "from_lon": -110.94449,
+    "to_lat": 32.22997,
+    "to_lon": -110.95475,
+    "start_time": "09:00:00",
+    "end_time": "9:30:00",
+    "pattern_type":"Commute"
+}

@@ -94,4 +94,6 @@ secrets.conf
 
 httpie_scripts
 
+sample_data/pop_sample_data.sh
+
 TODOs

@@ -1,0 +1,11 @@
+{
+    "activity_id": 2,
+    "metropia_id": 1,
+    "from_lat": 32.27908,
+    "from_lon": -110.94449,
+    "to_lat": 32.27247,
+    "to_lon": -110.95194,
+    "start_time": "20:00:00",
+    "end_time": "20:10:00",
+    "pattern_type":"Work Out"
+}

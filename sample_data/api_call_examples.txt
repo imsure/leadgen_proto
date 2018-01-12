@@ -1,0 +1,8 @@
+# Create an activity pattern
+http -a username:password POST http://127.0.0.1:8000/activity_patterns/ < activity_pattern_5.json
+
+# Update an activity pattern
+http -a username:password PUT http://127.0.0.1:8000/activity_patterns/5/ < activity_pattern_5.json
+
+# Create or Update a travel option for an activity pattern
+http -a username:password PUT http://127.0.0.1:8000/activity_patterns/2/walk_transit/update/ < walk_transit.json
