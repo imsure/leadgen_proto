@@ -1,4 +1,4 @@
-from .models import ActivityPattern, Driving, WalkTransit
+from .models import ActivityPattern, Driving, WalkTransit, Walking, Biking
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -36,4 +36,16 @@ class DrivingSerializer(serializers.ModelSerializer):
 class WalkTransitSerializer(serializers.ModelSerializer):
     class Meta:
         model = WalkTransit
+        fields = ('activity_id', 'cost', 'wait_time', 'travel_time')
+
+
+class WalkingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Walking
+        fields = ('activity_id', 'cost', 'wait_time', 'travel_time')
+
+
+class BikingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Biking
         fields = ('activity_id', 'cost', 'wait_time', 'travel_time')

@@ -1,6 +1,7 @@
 from django.db import models
 
-PATTERN_TYPES = (('Commute', 'Commute'), ('Shopping', 'Shopping'), ('School Pickup', 'School Pickup'))
+PATTERN_TYPES = (('Commute', 'Commute'), ('Shopping', 'Shopping'), ('School Pickup', 'School Pickup'),
+                 ('Work Out', 'Work Out'),)
 
 
 class ActivityPattern(models.Model):

@@ -9,7 +9,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, detail_route, permission_classes
 from rest_framework.response import Response
 from rest_framework import renderers
-from .serializers import ActivityPatternSerializer, UserSerializer, DrivingSerializer, WalkTransitSerializer
+from .serializers import ActivityPatternSerializer, UserSerializer, DrivingSerializer
+from .serializers import WalkTransitSerializer, WalkingSerializer, BikingSerializer
 from .models import ActivityPattern, Driving, Walking, Biking, WalkTransit
 from .permissions import IsOwnerOrReadOnly
 from datetime import datetime
