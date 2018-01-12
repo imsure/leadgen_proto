@@ -1,4 +1,4 @@
-from .models import ActivityPattern
+from .models import ActivityPattern, Driving, WalkTransit
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -25,3 +25,15 @@ class ActivityPatternSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'activity_id', 'metropia_id', 'from_lat', 'from_lon', 'to_lat', 'to_lon',
                   'start_time', 'end_time', 'add_datetime', 'mod_datetime', 'pattern_type',
                   'travel_options', 'owner')
+
+
+class DrivingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Driving
+        fields = ('activity_id', 'cost', 'wait_time', 'travel_time', 'congestion_level')
+
+
+class WalkTransitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WalkTransit
+        fields = ('activity_id', 'cost', 'wait_time', 'travel_time')

@@ -3,13 +3,14 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework import mixins
 from rest_framework import permissions
 from rest_framework import status
-from rest_framework.decorators import api_view, detail_route
+from rest_framework.decorators import api_view, detail_route, permission_classes
 from rest_framework.response import Response
 from rest_framework import renderers
-from .serializers import ActivityPatternSerializer, UserSerializer
-from .models import ActivityPattern, Driving, Walking, Biking
+from .serializers import ActivityPatternSerializer, UserSerializer, DrivingSerializer, WalkTransitSerializer
+from .models import ActivityPattern, Driving, Walking, Biking, WalkTransit
 from .permissions import IsOwnerOrReadOnly
 from datetime import datetime
 
@@ -64,7 +65,7 @@ def travel_option(request, pk, mode, format=None):
     options = activity_pattern.avail_travel_options.split(',')
     if request.method == 'GET':
         if mode in options:
-            ModeClass = eval(mode.title())
+            ModeClass = eval(mode.title().replace('_', ''))
             option = ModeClass.objects.get(activity_id_id=pk)
             fields = [f.name for f in ModeClass._meta.fields]
             data = {}
@@ -77,3 +78,41 @@ def travel_option(request, pk, mode, format=None):
         else:
             return Response(data={'Error': 'mode {} is not available for this activity pattern.'.format(mode)},
                             status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@permission_classes((permissions.IsAuthenticated, ))
+def update_travel_option(request, activity_id, mode, format=None):
+    activity_pattern = ActivityPattern.objects.get(pk=activity_id)
+    try:  # update
+        ModeClass = eval(mode.title().replace('_', ''))
+        option = ModeClass.objects.get(activity_id_id=activity_id)
+    except ModeClass.DoesNotExist:  # create
+        option = None
+
+    ModeSerializerClass = eval(mode.title().replace('_', '') + 'Serializer')
+    serializer = ModeSerializerClass(data=request.data)
+    if serializer.is_valid():
+        if option is None:  # create
+            serializer.save()
+            status_code = status.HTTP_201_CREATED
+        else:  # update
+            fields = [f.name for f in ModeClass._meta.fields]
+            data = request.data
+            for field in fields:
+                if field == 'activity_id' or field == 'id':
+                    continue
+                setattr(option, field, data[field])
+            option.save()
+            status_code = status.HTTP_200_OK
+
+        activity_pattern.travel_plan_update_datetime = datetime.now()
+        if not activity_pattern.avail_travel_options:
+            activity_pattern.avail_travel_options = mode
+        else:
+            activity_pattern.avail_travel_options += ',{}'.format(mode)
+        activity_pattern.save()
+
+        return Response(serializer.data, status=status_code)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

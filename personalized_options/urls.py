@@ -10,4 +10,5 @@ router.register(r'users', views.UserViewSet)
 urlpatterns = [
     url(r'^activity_patterns/(?P<pk>[0-9]+)/travel_options/(?P<mode>[a-z_]+)/$', views.travel_option),
     url(r'^', include(router.urls)),
+    url(r'^activity_patterns/(?P<activity_id>[0-9]+)/(?P<mode>[a-z_]+)/update/$', views.update_travel_option),
 ]

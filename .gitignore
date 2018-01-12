@@ -91,3 +91,7 @@ db.sqlite3
 .idea
 
 secrets.conf
+
+httpie_scripts
+
+TODOs
