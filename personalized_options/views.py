@@ -4,11 +4,12 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework import status
 from rest_framework.decorators import api_view, detail_route
 from rest_framework.response import Response
 from rest_framework import renderers
 from .serializers import ActivityPatternSerializer, UserSerializer
-from .models import ActivityPattern
+from .models import ActivityPattern, Driving, Walking, Biking
 from .permissions import IsOwnerOrReadOnly
 from datetime import datetime
 
@@ -58,6 +59,20 @@ class ActivityPatternViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['GET'])
-def travel_plan(request, pk, format=None):
+def travel_plan(request, pk, mode, format=None):
+    activity_pattern = ActivityPattern.objects.get(pk=pk)
+    options = activity_pattern.avail_travel_options.split(',')
     if request.method == 'GET':
-        return Response("travel plans")
+        if mode in options:
+            ModeClass = eval(mode.title())
+            option = ModeClass.objects.get(activity_id_id=pk)
+            data = {
+                'travel time': option.travel_time,
+                'wait time': option.wait_time,
+                'cost': option.cost,
+            }
+            # return Response("place holder for {}".format(mode))
+            return Response(data=data)
+        else:
+            return Response(data={'Error': 'mode {} is not available for this activity pattern.'.format(mode)},
+                            status=status.HTTP_400_BAD_REQUEST)

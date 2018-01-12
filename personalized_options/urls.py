@@ -9,6 +9,6 @@ router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     # url(r'^activity_patterns/$', views.ActivityPatternList.as_view()),
-    # url(r'^activity_patterns/(?P<pk>[0-9]+)/plans/$', views.travel_plan),
+    url(r'^activity_patterns/(?P<pk>[0-9]+)/travel_options/(?P<mode>[a-z_]+)/$', views.travel_plan),
     url(r'^', include(router.urls)),
 ]
