@@ -18,11 +18,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 class ActivityPatternSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    # avail_travel_options = serializers.HiddenField(default='')
-    # add_datetime = serializers.HiddenField()
-    # mod_datetime = serializers.HiddenField(default=datetime.now())
-    # travel_plan_update_datetime = serializers.HiddenField(default=None)
-
     travel_options = serializers.HyperlinkedIdentityField(view_name='activitypattern-travel-options')
 
     class Meta:

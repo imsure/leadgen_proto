@@ -59,20 +59,21 @@ class ActivityPatternViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['GET'])
-def travel_plan(request, pk, mode, format=None):
+def travel_option(request, pk, mode, format=None):
     activity_pattern = ActivityPattern.objects.get(pk=pk)
     options = activity_pattern.avail_travel_options.split(',')
     if request.method == 'GET':
         if mode in options:
             ModeClass = eval(mode.title())
             option = ModeClass.objects.get(activity_id_id=pk)
-            data = {
-                'travel time': option.travel_time,
-                'wait time': option.wait_time,
-                'cost': option.cost,
-            }
-            # return Response("place holder for {}".format(mode))
-            return Response(data=data)
+            fields = [f.name for f in ModeClass._meta.fields]
+            data = {}
+            for field in fields:
+                if field == 'activity_id' or field == 'id':
+                    continue
+                data[field] = getattr(option, field)
+
+            return Response(data=data, status=status.HTTP_200_OK)
         else:
             return Response(data={'Error': 'mode {} is not available for this activity pattern.'.format(mode)},
                             status=status.HTTP_400_BAD_REQUEST)
